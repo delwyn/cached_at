@@ -3,7 +3,7 @@
 [![Build Status](https://api.travis-ci.org/delwyn/cached_at.png?branch=master)](http://travis-ci.org/delwyn/cached_at)
 [![Code Climate](https://codeclimate.com/github/delwyn/cached_at.png)](https://codeclimate.com/github/delwyn/cached_at)
 
-TODO: Write a gem description
+Use cached_at for ActiveRecord cache key instead of updated at
 
 ## Installation
 
@@ -20,8 +20,28 @@ Or install it yourself as:
     $ gem install cached_at
 
 ## Usage
+Too add to any class, just include CachedAt
 
-TODO: Write usage instructions here
+    class User
+      include CachedAt
+    end
+
+You will need to add the cached_at column to the table
+
+    rails generate migration add_cached_at_to_users cached_at:datetime
+
+The cache_at column will be update when a record is created or updated.
+
+    user = User.create # sets the cached_at
+    user.save          # updates cached_at if another attribute on the record has changed
+
+When a records associations are created/updated, the cached_at column will be updated but the updated_at will not change.
+
+    class Post
+      belongs_to :user, touch: true
+    end
+
+    post = Post.create user: user # updates the user cached_at
 
 ## Contributing
 

@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["delwyn.d@gmail.com"]
   spec.description   = %q{Use cached_at for ActiveRecord cache key}
   spec.summary       = %q{Use cached_at for ActiveRecord cache key instead of updated at}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/delwyn/cached_at"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)

@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = CachedAt::VERSION
   spec.authors       = ["Delwyn de Villiers"]
   spec.email         = ["delwyn.d@gmail.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
+  spec.description   = %q{Use cached_at for ActiveRecord cache key}
+  spec.summary       = %q{Use cached_at for ActiveRecord cache key instead of updated at}
   spec.homepage      = ""
   spec.license       = "MIT"
 

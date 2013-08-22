@@ -1,7 +1,7 @@
 # CachedAt
 
 [![Build Status](https://api.travis-ci.org/delwyn/cached_at.png?branch=master)](http://travis-ci.org/delwyn/cached_at)
-[![Code Climate](https://codeclimate.com/github/delwyn/cached_at)](https://codeclimate.com/github/delwyn/cached_at)
+[![Code Climate](https://codeclimate.com/github/delwyn/cached_at.png)](https://codeclimate.com/github/delwyn/cached_at)
 
 TODO: Write a gem description
 

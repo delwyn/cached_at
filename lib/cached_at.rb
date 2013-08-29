@@ -4,6 +4,7 @@ module CachedAt
   def self.included(klass)
     klass.instance_eval do
       before_save :_set_cached_at
+      klass.extend ClassMethods
     end
   end
 
@@ -21,6 +22,12 @@ module CachedAt
 
   def touch(name = nil)
     update_column :cached_at, current_time_from_proper_timezone
+  end
+
+  module ClassMethods
+    def cache_key
+      "#{model_name}-#{maximum(:cached_at).to_i}"
+    end
   end
 
   private

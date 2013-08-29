@@ -50,7 +50,8 @@ Gem also provides class method `cache_key` for your model, that
     # SELECT MAX(`posts`.`cached_at`) AS max_id FROM `posts`
     # => "Post-1377768216"
 
-You can use this inside your cachin syntax when you are monitoring if model was changed.
+This way you can pass your model class to `Rails.cache.fetch` as an
+argument to monitor when any record was changed.
 
     Rails.cache.fetch [Post, 'last_posts'] do
       Post.last_posts

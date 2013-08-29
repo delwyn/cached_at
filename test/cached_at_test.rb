@@ -102,7 +102,7 @@ describe 'Cached At' do
 
     context 'when no record exist' do
       before{ User.destroy_all }
-      it{ subject; subject.must_equal "User-0" }
+      it{ subject.must_equal "User-0" }
     end
   end
 end

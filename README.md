@@ -43,6 +43,22 @@ When a records associations are created/updated, the cached_at column will be up
 
     post = Post.create user: user # updates the user cached_at
 
+Gem also provides class method `cache_key` for your model, that
+ will generate cache key string from `maximum(:cached_at)`
+
+    Post.cache_key
+    # SELECT MAX(`posts`.`cached_at`) AS max_id FROM `posts`
+    # => "Post-1377768216"
+
+This way you can pass your model class to `Rails.cache.fetch` as an
+argument to monitor when any record was changed.
+
+    Rails.cache.fetch [Post, 'last_posts'] do
+      Post.last_posts
+    end
+    # => Cache fetch_hit: Post-1377768216/last_posts
+
+
 ## Contributing
 
 1. Fork it

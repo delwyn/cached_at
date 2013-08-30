@@ -94,4 +94,15 @@ describe 'Cached At' do
       end
     end
   end
+
+  describe 'Model.cache_key' do
+    subject { User.cache_key }
+
+    it { subject.must_equal "User-#{User.maximum(:cached_at).to_i}" }
+
+    context 'when no record exist' do
+      before { User.destroy_all }
+      it { subject.must_equal "User-0" }
+    end
+  end
 end

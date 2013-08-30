@@ -5,57 +5,60 @@ def key_for(object, key)
   "#{object.class.model_name.cache_key}/#{object.id}-#{timestamp}"
 end
 
-describe 'Cached At' do
-  describe 'Cache Key' do
+describe CachedAt do
+  describe '#cache_key' do
+    let(:cache_key) { user.cache_key }
+
     context 'new record' do
-      it 'uses new' do
-        user = User.new
-        user.cache_key.must_equal 'users/new'
-      end
+      let(:user) { User.new }
+      it { cache_key.must_equal 'users/new' }
     end
 
     context 'existing record' do
-      it 'uses cached_at' do
-        user = User.create
-        user.cached_at = Time.now + 1.minute
-        user.cache_key.wont_equal key_for(user, :updated_at)
-        user.cache_key.must_equal key_for(user, :cached_at)
-      end
+      let(:user) { User.create }
+      before { user.cached_at = Time.now + 1.minute }
+
+      it { cache_key.wont_equal key_for(user, :updated_at) }
+      it { cache_key.must_equal key_for(user, :cached_at) }
     end
 
     context 'cached_at nil' do
-      it 'user' do
-        user = User.create
-        user.cached_at = nil
-        user.cache_key.must_equal "users/#{user.id}"
+      let(:user) { User.create }
+      before { user.cached_at = nil }
+
+      it { cache_key.must_equal "users/#{user.id}" }
+    end
+  end
+
+  describe '#set_cached_at' do
+    context 'creating record' do
+      let(:user) { User.new }
+
+      it 'sets cached_at' do
+        user.cached_at.must_be_nil
+        user.save
+        user.cached_at.wont_be_nil
+      end
+    end
+
+    context 'updating record' do
+      let(:user) { User.create }
+
+      before { @old_cached_at = user.cached_at }
+
+      it 'updates cached_at' do
+        user.update_attribute(:name, 'Bob')
+        user.cached_at.wont_equal @old_cached_at
+      end
+
+      it 'does not update the cached_at when nothing has changed' do
+        user.save
+        user.cached_at.must_equal @old_cached_at
       end
     end
   end
 
-  describe 'Set Cached At' do
-    it 'sets cached_at when creating' do
-      user = User.new
-      user.cached_at.must_be_nil
-      user.save
-      user.cached_at.wont_be_nil
-    end
-
-    it 'updates cached_at when updating' do
-      user = User.create
-      old_cached_at = user.cached_at
-      user.update_attribute(:name, 'Bob')
-      user.cached_at.wont_equal old_cached_at
-    end
-
-    it 'does not update the cached_at when nothing has changed' do
-      user = User.create
-      cached_at = user.cached_at
-      user.save
-      user.cached_at.must_equal cached_at
-    end
-  end
-
-  describe 'Associated' do
+  describe 'Associations' do
     let(:user) { User.create }
 
     context 'create association' do
